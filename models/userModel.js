@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const UserSchema = new mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
   mail: String,
   name: String,
   surname: String,
@@ -12,6 +13,7 @@ const UserSchema = new mongoose.Schema({
   pwd: String,
   dob: Date,
   phone: String,
+  admin: Boolean,
 });
 
 // DB method takes a pwd from req.body and then hashes it.

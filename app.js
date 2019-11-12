@@ -4,11 +4,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-// const UserModel = require('./models/userModel');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const secretRouter = require('./routes/secret');
+const adminPanel = require('./routes/adminPanel');
+const userPanel = require('./routes/userPanel');
 
 // DB connection
 mongoose.connect('mongodb+srv://admin:1111@cluster0-7cnbh.mongodb.net/test?retryWrites=true&w=majority', {
@@ -36,6 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/secret', secretRouter);
+app.use('/adminPanel', adminPanel);
+app.use('/userPanel', userPanel);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

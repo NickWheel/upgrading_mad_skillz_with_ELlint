@@ -2,27 +2,33 @@ const express = require('express');
 const Ajv = require('ajv');
 const UsersModel = require('../models/userModel');
 const userSchema = require('../schemas/userSchema');
+const { userController, userRegistration } = require('../controllers/userController');
 
 const router = express.Router();
 const ajv = new Ajv();
 
 // GET Home page
-router.get('/', (req, res) => {
-  UsersModel.find()
-    .then((data) => {
-      res.render('index', { users: data });
-    })
-    .catch((err) => { if (err) throw err; });
-});
+router.get('/', userController);
+
+// router.get('/', (req, res) => {
+//   UsersModel.find()
+//     .then((data) => {
+//       res.render('index', { users: data });
+//     })
+//     .catch((err) => { if (err) throw err; });
+// });
 // GET registration page
 router.get('/reg', (req, res) => {
   res.render('sign_in');
 });
 // POST registration page
-router.post('/reg', (req, res) => {
+router.post('/reg', async (req, res) => {
   // validation
-  const validate = ajv.compile(userSchema);
-  const valid = validate(req.body);
+  const {
+    mail, name, surname, phone, dob, login, pwd,
+  } = await req.body;
+  const validate = await ajv.compile(userSchema);
+  const valid = await validate(req.body);
   console.log(`VALIDATION: ${valid}`);
   if (!valid) {
     const { errors } = validate;
@@ -32,28 +38,8 @@ router.post('/reg', (req, res) => {
     console.log(errors);
     res.json(result);
   } else {
-    (async () => {
-      try {
-        const {
-          mail, name, surname, phone, dob, login, pwd,
-        } = await req.body;
-        const newUser = await new UsersModel({
-          mail,
-          name,
-          surname,
-          phone,
-          dob,
-          login,
-        });
-        // hashing a pwd
-        const hashedPwd = await newUser.hashingPwd(pwd);
-        newUser.pwd = hashedPwd;
-        await newUser.save();
-        res.redirect('/');
-      } catch (err) {
-        if (err) throw err;
-      }
-    })();
+    await userRegistration(mail, name, surname, phone, dob, login, pwd);
+    res.redirect('/');
   }
 });
 // GET login page
@@ -64,7 +50,7 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
   const { login, pwd } = req.body;
   const loginingUser = {
-    login: req.body.login,
+    login,
   };
   UsersModel.findOne(loginingUser)
     .then((data) => {

@@ -8,9 +8,11 @@ router.get('/', (req, res) => {
   if (req.cookies.hash && req.cookies.login) {
     UsersModel.findOne({ login: req.cookies.login })
       .then((data) => {
-        const firstFiveSymbolsOfPwd = data.pwd.match(/(.{1,5})/);
+        const firstFiveSymbolsOfPwd = data.pwd.slice(0, 5);
         if (req.cookies.hash === firstFiveSymbolsOfPwd) {
           res.send('YOUR MOM GAY');
+        } else {
+          res.send('you are lox without a cookies bliat!');
         }
       })
       .catch((err) => { if (err) throw err; });

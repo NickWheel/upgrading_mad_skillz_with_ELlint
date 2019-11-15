@@ -12,11 +12,10 @@ router.get('/', (req, res) => {
           if (data.admin === true) {
             ArticleModel.find({ approved: false })
               .then((notApprovedArticles) => {
-                res.render('adminPanel', notApprovedArticles);
+                res.render('adminPanel', { notApprovedArticles });
               })
               .catch((err) => { if (err) throw err; });
           } else {
-
             res.send('<h2>404</h2> you are not admin bro!');
           }
         } else {
@@ -29,7 +28,13 @@ router.get('/', (req, res) => {
   }
 });
 router.post('/', (req, res) => {
-  // req.body = true, this is from fetch
-})
+  ArticleModel.findOne({ _id: req.body.id })
+    .then((data) => {
+      data.approved = true;
+      data.save();
+    })
+    .catch((err) => { if (err) throw err; });
+  res.redirect('adminPanel');
+});
 
 module.exports = router;

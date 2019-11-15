@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     UsersModel.findOne({ login: req.cookies.login })
       .then((data) => {
         if (req.cookies.hash === data.pwd.slice(0, 5)) {
-          res.render('/userPanel', { author: data.login });
+          res.render('userPanel', { author: data.login });
         } else {
           res.send('you are not logged in, dude!');
         }
@@ -23,7 +23,6 @@ router.post('/', (req, res) => {
   const article = new ArticleModel({
     header: req.body.header,
     text: req.body.text,
-    approved: false,
     author: req.body.author,
   });
   article.save();

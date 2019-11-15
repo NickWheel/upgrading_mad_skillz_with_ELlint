@@ -10,6 +10,7 @@ const usersRouter = require('./routes/users');
 const secretRouter = require('./routes/secret');
 const adminPanel = require('./routes/adminPanel');
 const userPanel = require('./routes/userPanel');
+const articlesRouter = require('./routes/articles');
 
 // DB connection
 mongoose.connect('mongodb+srv://admin:1111@cluster0-7cnbh.mongodb.net/test?retryWrites=true&w=majority', {
@@ -39,6 +40,7 @@ app.use('/users', usersRouter);
 app.use('/secret', secretRouter);
 app.use('/adminPanel', adminPanel);
 app.use('/userPanel', userPanel);
+app.use('/articles', articlesRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

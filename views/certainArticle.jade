@@ -1,0 +1,20 @@
+.block(style="border: 2px solid black; width: 100%;")
+  .article
+    h2= article.title
+    br
+    p= article.text
+    br
+    p= article.author
+  .comments(style="border: 1px soilid cyan")
+    if(logged)
+      form(action="/articles/comment", method="post")
+        p Write a comment!
+        input(type="text" name="newComment")
+        input(type="submit")
+    if(comments)
+      each comment in comments
+        div
+          p= comment.author
+          br
+          p= comment.text
+    

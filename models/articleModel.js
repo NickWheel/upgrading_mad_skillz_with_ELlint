@@ -2,10 +2,9 @@
 const mongoose = require('mongoose');
 
 const ArticleSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   header: String,
   text: String,
-  approved: Boolean,
+  approved: { type: Boolean, default: false },
   author: String,
   likes: Number,
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],

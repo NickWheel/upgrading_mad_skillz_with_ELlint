@@ -6,7 +6,7 @@ const ArticleSchema = new mongoose.Schema({
   text: String,
   author: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   likes: Number,
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+  // comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
 });
 
 

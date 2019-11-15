@@ -1,14 +1,15 @@
 
 h2 AdminPanel
 
-each article in notConfirmedArticles
-  div(style="border: 2px solid black")
+each article in notApprovedArticles
+  form(action="/adminPanel" method='POST' style="border: 2px solid black")
     h3=article.header
     p= article.text
     br
     br
     p= article.author
-    input(type="submit" action="/articles" method='POST' value='APPROVE') 
+    input(type="hidden" value=`${article._id}` name="id")
+    input(type="submit" value='APPROVE') 
 
 
-link(rel='./javascripts/adminpanel.js')
+//- link(rel='./javascripts/adminpanel.js')
